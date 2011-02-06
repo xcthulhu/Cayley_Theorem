@@ -1,0 +1,7 @@
+Cayley's theorem is an elementary result in abstract algebra that you can find in almost any undergraduate textbook.  An online proof similar to the one presented is given here:
+
+http://planetmath.org/?op=getobj&from=objects&id=2751
+
+This code was written using Isabelle2010. I cannot confirm that it compiles on Isabelle2011...
+
+TODO: This should be published but it's just too short/easy.  Maybe prove the extended embedding theorem for rings?
