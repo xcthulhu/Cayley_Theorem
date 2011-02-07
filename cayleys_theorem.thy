@@ -1,9 +1,9 @@
 header {* Cayley's Group Representation Theorem *}
-theory Cayleys_Theorem
+theory Cayley_Theorem
 imports Main "~~/src/HOL/Algebra/Bij"
 begin
 
-section {* The Cayley Embedding and Cayley Representation Group *}
+section {* The Cayley Embedding and the Cayley's Regular Representation *}
 
 abbreviation
   Cayley_Embedding :: "('a, 'b) monoid_scheme \<Rightarrow> 'a \<Rightarrow> 'a \<Rightarrow> 'a" ("\<phi>\<index>")
@@ -13,10 +13,12 @@ abbreviation
   Cay :: "('a, 'b) monoid_scheme \<Rightarrow> ('a \<Rightarrow> 'a) set"
   where "Cay G \<equiv> {(\<phi>\<^bsub>G\<^esub> a) | a. a \<in> (carrier G)}"
 
---{* Cayley's Representative Subgroup of the Symmetric Group *}
+--{* Cayley's regular representation subgroup of the symmetric group *}
 definition
   Cayley :: "('a, 'b) monoid_scheme  \<Rightarrow> ('a \<Rightarrow> 'a) monoid"
   where "Cayley G = BijGroup (carrier G) \<lparr> carrier := Cay G \<rparr>"
+
+section {* Supporting Lemmas *}
 
 --{* We first need to prove lots of statements about identity and composition *}
 lemma (in group) id_equiv [simp]: "\<phi> \<one> = (\<lambda>x \<in> carrier G. x)" (is "_ = ?id")
@@ -39,7 +41,8 @@ lemma (in group) \<phi>_hom [simp]:
     shows "compose (carrier G) (\<phi> a) (\<phi> b) = \<phi> (a\<otimes>b)" (is "?cab = _")
 proof -
    let ?cG = "carrier G"
-   { fix x; assume "x \<in> ?cG"
+   { fix x
+     assume "x \<in> ?cG"
      with assms group.axioms m_assoc 
      have "?cab x = \<phi> (a\<otimes>b) x" 
        by (unfold compose_def, simp) }
@@ -86,7 +89,8 @@ lemma bij_on_inverseI:
      shows "bij_betw f A (f ` A)"
 using assms
 proof -
- { fix x; assume \<heartsuit>: "x \<in> A"
+ { fix x
+   assume \<heartsuit>: "x \<in> A"
    hence "g (f x) = (compose A g f) x"
     by (simp add: compose_def)
    also from assms \<heartsuit>
@@ -107,7 +111,8 @@ proof -
   I: "a \<in> ?cG" and  II: "f = \<phi> a" by fast+
   hence "f ` ?cG \<subseteq> ?cG" by (fastsimp intro: group.axioms)
   moreover
-  { fix x; assume \<heartsuit>: "x \<in> ?cG"
+  { fix x
+    assume \<heartsuit>: "x \<in> ?cG"
     from I have \<spadesuit>: "(inv a) \<in> ?cG" by fastsimp
     from I II \<heartsuit> \<spadesuit>
          have "f (inv a \<otimes> x) = a \<otimes> ((inv a) \<otimes> x)" by fastsimp
@@ -127,10 +132,10 @@ lemma (in group) Cay_Bij:
 proof -
   from assms bij_on_inverseI inv_Cay
   have "bij_betw f (carrier G) (f ` carrier G)" by fast
-moreover 
+  moreover 
   from assms image_of_Cayley 
   have "f ` (carrier G) = carrier G" by fast
-moreover note assms
+  moreover note assms
   ultimately show ?thesis by (simp add: Bij_def, fastsimp)
 qed
 
@@ -204,7 +209,7 @@ proof -
   ultimately show ?thesis by simp
 qed
 
--- {*Our main result*}
+section {* Cayley's Representation Theorem *}
 
 theorem (in group) Cayley_Theorem:
   "\<phi> \<in> G \<cong> (Cayley G)"

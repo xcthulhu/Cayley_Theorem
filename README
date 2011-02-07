@@ -2,6 +2,4 @@ Cayley's theorem is an elementary result in abstract algebra that you can find i
 
 http://planetmath.org/?op=getobj&from=objects&id=2751
 
-This code was written using Isabelle2010. I cannot confirm that it compiles on Isabelle2011...
-
 TODO: This should be published but it's just too short/easy.  Maybe prove the extended embedding theorem for rings?
